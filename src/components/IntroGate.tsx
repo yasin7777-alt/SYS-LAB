@@ -5,9 +5,9 @@ import { Volume2 } from 'lucide-react'
 
 // The original MP4 files are copied verbatim into public/videos (no transcoding).
 const INTRO_VIDEOS = [
-  '/videos/syslab-intro-01.mp4',
-  '/videos/syslab-intro-02.mp4',
-  '/videos/syslab-intro-03.mp4',
+  `${import.meta.env.BASE_URL}videos/syslab-intro-01.mp4`,
+  `${import.meta.env.BASE_URL}videos/syslab-intro-02.mp4`,
+  `${import.meta.env.BASE_URL}videos/syslab-intro-03.mp4`,
 ] as const
 
 const SEEN_IN_TAB_KEY = 'syslab-intro-seen-in-tab-v1'
