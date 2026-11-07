@@ -1,0 +1,299 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Manrope:wght@500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter Tight", "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Inter Tight", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+  --color-acid: #d7ff3f;
+}
+
+:root {
+  color-scheme: dark;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  --acid: #d7ff3f;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: #0a0c0b;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  overflow-x: hidden;
+  background: #0a0c0b;
+  font-family: "Inter Tight", "Helvetica Neue", Arial, sans-serif;
+}
+
+button, a, input {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button, a {
+  cursor: pointer;
+}
+
+button:focus-visible, a:focus-visible, input:focus-visible {
+  outline: 2px solid var(--acid);
+  outline-offset: 4px;
+}
+
+::selection {
+  color: #0a0c0b;
+  background: #d7ff3f;
+}
+
+section {
+  scroll-margin-top: 74px;
+}
+
+#method {
+  scroll-margin-top: 0;
+}
+
+.section-kicker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-top: 1px solid rgba(255,255,255,.16);
+  padding-top: 16px;
+  color: rgba(255,255,255,.42);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 9px;
+  line-height: 1.4;
+  letter-spacing: .17em;
+  text-transform: uppercase;
+}
+
+.section-kicker > span {
+  color: #d7ff3f;
+}
+
+.nav-link {
+  position: relative;
+  padding-block: 10px;
+}
+
+.nav-link::after {
+  position: absolute;
+  right: 0;
+  bottom: 3px;
+  left: 0;
+  height: 1px;
+  content: "";
+  background: #d7ff3f;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform .35s cubic-bezier(.16,1,.3,1);
+}
+
+.nav-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.hero-grid {
+  background-image:
+    linear-gradient(rgba(255,255,255,.032) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.032) 1px, transparent 1px);
+  background-size: 80px 80px;
+  background-position: center top;
+}
+
+.hero-scan {
+  background: repeating-linear-gradient(0deg, transparent 0, transparent 3px, rgba(255,255,255,.009) 4px);
+}
+
+.lab-grid {
+  background-image:
+    radial-gradient(circle at 90% 10%, rgba(215,255,63,.045), transparent 24%),
+    linear-gradient(rgba(255,255,255,.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.022) 1px, transparent 1px);
+  background-size: auto, 64px 64px, 64px 64px;
+}
+
+.track-row::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  background: var(--track-accent);
+  opacity: .035;
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform .45s cubic-bezier(.16,1,.3,1);
+}
+
+.track-row:hover::before {
+  transform: scaleY(1);
+}
+
+.packet-flow {
+  animation: packet-flow 1.4s linear infinite;
+}
+
+.skill-marquee {
+  /* Each half is identical. -50% lands on the same starting item, with no blank space. */
+  animation: skill-marquee 96s linear infinite;
+  will-change: transform;
+}
+
+.terminal-scroll {
+  scrollbar-color: rgba(215,255,63,.35) transparent;
+  scrollbar-width: thin;
+  overscroll-behavior: contain;
+}
+
+.terminal-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+
+.terminal-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.terminal-scroll::-webkit-scrollbar-thumb {
+  background: rgba(215,255,63,.25);
+}
+
+@keyframes packet-flow {
+  to { stroke-dashoffset: -42; }
+}
+
+@keyframes skill-marquee {
+  to { transform: translateX(-50%); }
+}
+
+@media (max-width: 640px) {
+  .hero-grid {
+    background-size: 48px 48px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .packet-flow, .skill-marquee, .animate-pulse {
+    animation: none !important;
+  }
+  *, *::before, *::after {
+    transition-duration: .01ms !important;
+  }
+}
+
+/* Update 05: consistent, legible interface typography in marked areas. */
+.syslab-meta {
+  font-family: "Manrope", "Inter Tight", Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  line-height: 1.5;
+}
+.syslab-meta-small {
+  font-family: "Manrope", "Inter Tight", Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .045em;
+  line-height: 1.55;
+}
+@media (max-width: 640px) {
+  .syslab-meta { font-size: 11px; }
+}
+
+
+/* SYS/LAB Update 17 — Inter UI typography.
+   Clear modern sans-serif for UI labels; real shell/code remains mono. */
+:root {
+  --syslab-interface-font: "Inter", "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Apply directly over existing font-mono and tracking utilities.
+   This is intentionally stronger than the previous theme-only update. */
+#root .section-kicker,
+#root .syslab-meta,
+#root .syslab-meta-small,
+#root .font-mono:not(.terminal-scroll):not(pre):not(code):not(input) {
+  font-family: var(--syslab-interface-font) !important;
+  font-optical-sizing: auto;
+  letter-spacing: -0.012em !important;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root .section-kicker {
+  font-size: 12.5px !important;
+  line-height: 1.5;
+  font-weight: 550;
+}
+#root .syslab-meta {
+  font-size: 12.5px !important;
+  font-weight: 600;
+  line-height: 1.45;
+}
+#root .syslab-meta-small {
+  font-size: 12px !important;
+  font-weight: 500;
+  line-height: 1.45;
+}
+#root .nav-link {
+  font-family: var(--syslab-interface-font) !important;
+  font-size: 12px !important;
+  font-weight: 600;
+  letter-spacing: 0 !important;
+}
+
+/* Lift genuinely tiny 7–11 px interface captions to a readable baseline.
+   Class-token matching also handles arbitrary Tailwind text sizes. */
+#root :is([class~="text-[7px]"], [class~="text-[8px]"], [class~="text-[9px]"]):not(pre):not(code):not(input):not(.terminal-scroll) {
+  font-size: 12px !important;
+  line-height: 1.45;
+}
+#root [class~="text-[10px]"]:not(pre):not(code):not(input):not(.terminal-scroll) {
+  font-size: 12.5px !important;
+  line-height: 1.45;
+}
+#root [class~="text-[11px]"]:not(pre):not(code):not(input):not(.terminal-scroll) {
+  font-size: 13px !important;
+  line-height: 1.45;
+}
+
+/* The sidebar in the lab is narrow, so avoid overflowing host/status values. */
+#root #lab aside :is([class~="text-[7px]"], [class~="text-[8px]"], [class~="text-[9px]"]) {
+  font-size: 11px !important;
+}
+
+/* Preserve a real terminal typeface for commands, logs, sample code and input. */
+#root .terminal-scroll,
+#root .terminal-scroll *,
+#root #lab input,
+#root #lab pre,
+#root #learn pre,
+#root code,
+#root pre {
+  font-family: "IBM Plex Mono", Consolas, monospace !important;
+  letter-spacing: normal !important;
+}
+
+/* Small screens: labels stay readable without crowding the interface. */
+@media (max-width: 640px) {
+  #root .nav-link, #root .section-kicker, #root .syslab-meta {
+    font-size: 11.5px !important;
+  }
+  #root .syslab-meta-small { font-size: 11px !important; }
+}
+
+
+/* Update 21 — remove extra micro-labels marked by the user.
+   Keeps the layout cleaner and less busy. */
+#root #about .section-kicker {
+  display: none !important;
+}
+
+/* Best-effort footer cleanup: hide the last small badge in the footer bottom row.
+   The 'Наверх' control remains visible. */
+#root footer .syslab-meta:last-of-type,
+#root footer .syslab-meta-small:last-of-type {
+  display: none !important;
+}
