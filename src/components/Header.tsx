@@ -264,7 +264,7 @@ export function Header({ planCount, onOpenPlan, onOpenCourses, mode = 'home', ca
                   style={{ width: academyLogoWidth }}
                 >
                   <img
-                    src={`${import.meta.env.BASE_URL}images/syslab-academy-logo.png"
+                    src={`${import.meta.env.BASE_URL}images/syslab-academy-logo.png`}
                     alt="SYS/LAB Academy"
                     draggable={false}
                     className="absolute left-0 top-1/2 h-8 w-auto max-w-none -translate-y-1/2 object-contain sm:h-10"
@@ -273,7 +273,7 @@ export function Header({ planCount, onOpenPlan, onOpenCourses, mode = 'home', ca
               ) : (
                 <>
                   <img
-                    src={`${import.meta.env.BASE_URL}images/syslab-mark.png"
+                    src={`${import.meta.env.BASE_URL}images/syslab-mark.png`}
                     alt=""
                     draggable={false}
                     className="relative z-20 h-9 w-auto shrink-0 object-contain sm:h-10"
@@ -387,10 +387,10 @@ export function Header({ planCount, onOpenPlan, onOpenCourses, mode = 'home', ca
             <div className="flex h-[80px] items-center justify-between border-b border-white/10 px-5 sm:px-8">
               <div className="flex items-center gap-3">
                 {mode === 'courses' ? (
-                  <img src={`${import.meta.env.BASE_URL}images/syslab-academy-logo.png" alt="SYS/LAB Academy" draggable={false} className="h-8 w-auto max-w-[min(70vw,280px)] object-contain sm:h-10" />
+                  <img src={`${import.meta.env.BASE_URL}images/syslab-academy-logo.png`} alt="SYS/LAB Academy" draggable={false} className="h-8 w-auto max-w-[min(70vw,280px)] object-contain sm:h-10" />
                 ) : (
                   <>
-                    <img src={`${import.meta.env.BASE_URL}images/syslab-mark.png" alt="" draggable={false} className="h-10 w-auto object-contain" />
+                    <img src={`${import.meta.env.BASE_URL}images/syslab-mark.png`} alt="" draggable={false} className="h-10 w-auto object-contain" />
                     <span className="font-display text-[22px] font-extrabold tracking-[-0.05em]">
                       SYS<span className="text-[#d7ff3f]">/</span>LAB
                     </span>
