@@ -15,18 +15,24 @@ import { CoursesPage } from './components/CoursesPage'
 import { CourseCatalogue } from './components/CourseCatalogue'
 import { CoursesTransition } from './components/CoursesTransition'
 
+// Hash routes work on static hosts such as GitHub Pages without server rewrites.
+function routeFromHash(): string {
+  const route = window.location.hash.slice(1)
+  return route.startsWith('/') ? route : '/'
+}
+
 const skills = ['LINUX', 'TCP / IP', 'WINDOWS SERVER', 'VIRTUALIZATION', 'ACTIVE DIRECTORY', 'SYSTEMD', 'NETWORKING', 'INFRASTRUCTURE']
 
 function App() {
-  const [currentPath, setCurrentPath] = useState(() => window.location.pathname)
+  const [currentPath, setCurrentPath] = useState(routeFromHash)
   const [courseTransitionPhase, setCourseTransitionPhase] = useState<'idle' | 'cover' | 'video' | 'reveal'>('idle')
   useEffect(() => {
-    const handlePopstate = () => setCurrentPath(window.location.pathname)
-    window.addEventListener('popstate', handlePopstate)
-    return () => window.removeEventListener('popstate', handlePopstate)
+    const handleHashChange = () => setCurrentPath(routeFromHash())
+    window.addEventListener('hashchange', handleHashChange)
+    return () => window.removeEventListener('hashchange', handleHashChange)
   }, [])
   const openPath = useCallback((path: string) => {
-    window.history.pushState({}, '', path)
+    window.location.hash = path
     setCurrentPath(path)
     window.scrollTo({ top: 0, behavior: 'instant' })
   }, [])
