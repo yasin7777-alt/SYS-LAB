@@ -28,15 +28,15 @@ export function Hero({ onStart }: HeroProps) {
       >
         {reduced || videoFailed ? (
           <img
-            src="/images/infrastructure.webp"
+            src={`${import.meta.env.BASE_URL}images/infrastructure.webp"
             alt=""
             className="absolute inset-0 h-full w-full object-cover object-center opacity-80"
           />
         ) : (
           <video
             className="absolute inset-0 h-full w-full object-cover object-center opacity-90"
-            src="/videos/syslab-hero-background.mp4"
-            poster="/images/infrastructure.webp"
+            src={`${import.meta.env.BASE_URL}videos/syslab-hero-background.mp4"
+            poster={`${import.meta.env.BASE_URL}images/infrastructure.webp"
             autoPlay
             muted
             loop
