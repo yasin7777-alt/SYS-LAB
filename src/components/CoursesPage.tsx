@@ -142,7 +142,7 @@ export function CoursesPage({ path, onNavigate }: Props) {
     <header className="sticky top-0 z-40 border-b border-white/10 bg-[#090b0a]/95 backdrop-blur-xl">
       <div className="flex h-[72px] items-center justify-between gap-4 px-5 sm:px-8 lg:px-12">
         <button onClick={() => onNavigate('/')} className="flex items-center gap-3" aria-label="SYS/LAB Academy на главную">
-          <img src={`${import.meta.env.BASE_URL}images/syslab-academy-logo.png" alt="SYS/LAB Academy" className="h-9 w-auto max-w-[68vw] object-contain sm:h-11"/>
+          <img src={`${import.meta.env.BASE_URL}images/syslab-academy-logo.png`} alt="SYS/LAB Academy" className="h-9 w-auto max-w-[68vw] object-contain sm:h-11"/>
         </button>
         <button onClick={() => onNavigate(detail ? '/courses' : '/')} className="flex items-center gap-2 text-xs font-semibold text-white/65 transition hover:text-[#d7ff3f]">
           <ArrowLeft size={15}/>{detail ? 'К курсам' : 'На сайт'}
