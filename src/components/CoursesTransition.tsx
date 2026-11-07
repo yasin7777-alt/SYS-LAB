@@ -68,7 +68,7 @@ export function CoursesTransition({ phase, onCovered, onVideoEnded, onRevealed }
         <video
           ref={videoRef}
           className="absolute inset-0 h-full w-full object-cover"
-          src="/videos/syslab-courses-transition.mp4"
+          src={`${import.meta.env.BASE_URL}videos/syslab-courses-transition.mp4"
           muted
           playsInline
           preload="auto"
