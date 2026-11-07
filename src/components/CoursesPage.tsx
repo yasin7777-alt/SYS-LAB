@@ -35,38 +35,38 @@ const lime = '#d7ff3f'
 type LessonVideo = { label: string; src: string; fileName: string }
 const lessonVideos: Record<string, LessonVideo[]> = {
   'Основные термины': [
-    { label: 'Маршрутизатор, коммутатор и хаб', src: '/videos/academy/router-switch-hub.mp4', fileName: 'router-switch-hub.mp4' },
-    { label: 'Дополнительно: Windows Server', src: '/videos/academy/windows-server.mp4', fileName: 'windows-server.mp4' },
+    { label: 'Маршрутизатор, коммутатор и хаб', src: `${import.meta.env.BASE_URL}videos/academy/router-switch-hub.mp4`, fileName: 'router-switch-hub.mp4' },
+    { label: 'Дополнительно: Windows Server', src: `${import.meta.env.BASE_URL}videos/academy/windows-server.mp4`, fileName: 'windows-server.mp4' },
   ],
   'IP-адрес': [
-    { label: 'IP-адрес', src: '/videos/ip-address.mp4', fileName: 'ip-address.mp4' },
+    { label: 'IP-адрес', src: `${import.meta.env.BASE_URL}videos/ip-address.mp4`, fileName: 'ip-address.mp4' },
   ],
   'MAC-адрес': [
-    { label: 'MAC-адрес', src: '/videos/academy/mac-address.mp4', fileName: 'mac-address.mp4' },
+    { label: 'MAC-адрес', src: `${import.meta.env.BASE_URL}videos/academy/mac-address.mp4`, fileName: 'mac-address.mp4' },
   ],
   'Маска подсети': [
-    { label: 'Маска подсети', src: '/videos/academy/subnet-mask.mp4', fileName: 'subnet-mask.mp4' },
+    { label: 'Маска подсети', src: `${import.meta.env.BASE_URL}videos/academy/subnet-mask.mp4`, fileName: 'subnet-mask.mp4' },
   ],
   'Модель OSI — 7 уровней': [
-    { label: 'Модель OSI — 7 уровней', src: '/videos/academy/osi-seven-layers.mp4', fileName: 'osi-seven-layers.mp4' },
+    { label: 'Модель OSI — 7 уровней', src: `${import.meta.env.BASE_URL}videos/academy/osi-seven-layers.mp4`, fileName: 'osi-seven-layers.mp4' },
   ],
   'TCP и UDP': [
-    { label: 'TCP и UDP', src: '/videos/academy/tcp-udp.mp4', fileName: 'tcp-udp.mp4' },
+    { label: 'TCP и UDP', src: `${import.meta.env.BASE_URL}videos/academy/tcp-udp.mp4`, fileName: 'tcp-udp.mp4' },
   ],
   'DNS': [
-    { label: 'DNS', src: '/videos/academy/dns.mp4', fileName: 'dns.mp4' },
+    { label: 'DNS', src: `${import.meta.env.BASE_URL}videos/academy/dns.mp4`, fileName: 'dns.mp4' },
   ],
   'DHCP': [
-    { label: 'DHCP', src: '/videos/academy/dhcp.mp4', fileName: 'dhcp.mp4' },
+    { label: 'DHCP', src: `${import.meta.env.BASE_URL}videos/academy/dhcp.mp4`, fileName: 'dhcp.mp4' },
   ],
   'NAT и маршрутизация': [
-    { label: 'Как NAT спас интернет', src: '/videos/academy/nat.mp4', fileName: 'nat.mp4' },
+    { label: 'Как NAT спас интернет', src: `${import.meta.env.BASE_URL}videos/academy/nat.mp4`, fileName: 'nat.mp4' },
   ],
   'SSL и TLS': [
-    { label: 'SSL и TLS — в чём разница', src: '/videos/academy/ssl-tls.mp4', fileName: 'ssl-tls.mp4' },
+    { label: 'SSL и TLS — в чём разница', src: `${import.meta.env.BASE_URL}videos/academy/ssl-tls.mp4`, fileName: 'ssl-tls.mp4' },
   ],
   'Собеседования': [
-    { label: 'Собеседования', src: '/videos/academy/interviews.mp4', fileName: 'interviews.mp4' },
+    { label: 'Собеседования', src: `${import.meta.env.BASE_URL}videos/academy/interviews.mp4`, fileName: 'interviews.mp4' },
   ],
 }
 
@@ -142,7 +142,7 @@ export function CoursesPage({ path, onNavigate }: Props) {
     <header className="sticky top-0 z-40 border-b border-white/10 bg-[#090b0a]/95 backdrop-blur-xl">
       <div className="flex h-[72px] items-center justify-between gap-4 px-5 sm:px-8 lg:px-12">
         <button onClick={() => onNavigate('/')} className="flex items-center gap-3" aria-label="SYS/LAB Academy на главную">
-          <img src="/images/syslab-academy-logo.png" alt="SYS/LAB Academy" className="h-9 w-auto max-w-[68vw] object-contain sm:h-11"/>
+          <img src={`${import.meta.env.BASE_URL}images/syslab-academy-logo.png" alt="SYS/LAB Academy" className="h-9 w-auto max-w-[68vw] object-contain sm:h-11"/>
         </button>
         <button onClick={() => onNavigate(detail ? '/courses' : '/')} className="flex items-center gap-2 text-xs font-semibold text-white/65 transition hover:text-[#d7ff3f]">
           <ArrowLeft size={15}/>{detail ? 'К курсам' : 'На сайт'}
