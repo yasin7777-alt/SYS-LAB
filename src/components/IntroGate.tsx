@@ -163,6 +163,12 @@ export function IntroGate({ children }: IntroGateProps) {
           animate={{ opacity: exiting ? 0 : 1 }}
           transition={{ duration: exitDurationMs / 1000, ease: [0.16, 1, 0.3, 1] }}
           style={{ pointerEvents: exiting ? 'none' : 'auto' }}
+          onPointerDown={(event) => {
+            // React pointer events work for both mouse and touch.
+            // Keep the audio control independent from the skip gesture.
+            if ((event.target as HTMLElement).closest('button')) return
+            finishIntro()
+          }}
           onClick={finishIntro}
           role="dialog"
           aria-modal="true"
