@@ -11,6 +11,7 @@ const ease = [0.16, 1, 0.3, 1] as const
 export function Hero({ onStart }: HeroProps) {
   const ref = useRef<HTMLElement>(null)
   const [videoFailed, setVideoFailed] = useState(false)
+  const [videoReady, setVideoReady] = useState(false)
   const reduced = useReducedMotion()
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
   const imageY = useTransform(scrollYProgress, [0, 1], [0, 140])
@@ -26,17 +27,10 @@ export function Hero({ onStart }: HeroProps) {
         aria-hidden="true"
         style={reduced ? undefined : { y: imageY, scale: visualScale, opacity: fade }}
       >
-        {reduced || videoFailed ? (
-          <img
-            src={`${import.meta.env.BASE_URL}images/infrastructure.webp`}
-            alt=""
-            className="absolute inset-0 h-full w-full object-cover object-center opacity-80"
-          />
-        ) : (
+        {!reduced && !videoFailed && (
           <video
-            className="absolute inset-0 h-full w-full object-cover object-center opacity-90"
+            className={`absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-500 ease-out ${videoReady ? 'opacity-90' : 'opacity-0'}`}
             src={`${import.meta.env.BASE_URL}videos/syslab-hero-background.mp4`}
-            poster={`${import.meta.env.BASE_URL}images/infrastructure.webp`}
             autoPlay
             muted
             loop
@@ -45,6 +39,7 @@ export function Hero({ onStart }: HeroProps) {
             controls={false}
             disablePictureInPicture
             disableRemotePlayback
+            onPlaying={() => setVideoReady(true)}
             onError={() => setVideoFailed(true)}
             aria-hidden="true"
             tabIndex={-1}
