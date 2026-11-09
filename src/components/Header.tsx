@@ -178,7 +178,7 @@ export function Header({ planCount, onOpenPlan, onOpenCourses, mode = 'home', ca
     narrowViewport ? [210, 210, 43] : [257, 257, 49])
   // Shift the Academy logo and wordmark closer to the left edge at the top.
   // Restore normal positioning as the header compacts on scroll.
-  const academyLogoShift = useTransform(progress, [0, 1], narrowViewport ? [0, 0] : [-76, 0])
+  const academyLogoShift = useTransform(progress, [0, 1], narrowViewport ? [0, 0] : [8, 0])
 
   const navigate = (href: string) => {
     setMenuOpen(false)
