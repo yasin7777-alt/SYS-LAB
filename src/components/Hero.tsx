@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
-import { ArrowDown, ArrowUpRight } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
 
 interface HeroProps {
   onStart: () => void
@@ -90,11 +90,6 @@ export function Hero({ onStart }: HeroProps) {
 
         </div>
 
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.15, duration: 0.7 }} className="mt-12 border-t border-white/10 pt-5 lg:mt-8">
-          <button onClick={() => document.querySelector('#tracks')?.scrollIntoView({ behavior: 'smooth' })} className="group flex items-center gap-3 syslab-meta uppercase text-white/55 transition-colors hover:text-white">
-            <ArrowDown size={14} className="transition-transform group-hover:translate-y-1" /> Исследовать платформу
-          </button>
-        </motion.div>
       </motion.div>
     </section>
   )
