@@ -10,7 +10,7 @@ type Props = {
   onRevealed: () => void
 }
 
-const LOGO_HOLD_MS = 1500
+const LOGO_HOLD_MS = 1600
 
 /**
  * Match the supplied SYS/LAB 1920x1080 artwork:
@@ -36,17 +36,17 @@ export function CoursesTransition({ phase, onCovered, onVideoEnded, onRevealed }
       aria-hidden="true"
       className="fixed inset-0 z-[1000] overflow-hidden"
       style={{
-        willChange: 'transform',
+        willChange: 'clip-path',
         backgroundColor: '#020303',
         backgroundImage:
           'linear-gradient(to right, rgba(255,255,255,0.085) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.085) 1px, transparent 1px)',
         backgroundSize: '80px 80px',
         backgroundPosition: 'center center',
       }}
-      initial={{ x: '100%' }}
-      animate={{ x: revealed ? '100%' : '0%' }}
+      initial={{ clipPath: 'inset(0 0% 0 100%)' }}
+      animate={{ clipPath: revealed ? 'inset(0 100% 0 0%)' : 'inset(0 0% 0 0%)' }}
       transition={{
-        duration: revealed ? 0.70 : 0.72,
+        duration: 0.8,
         ease: [0.76, 0, 0.24, 1],
       }}
       onAnimationComplete={() => {
