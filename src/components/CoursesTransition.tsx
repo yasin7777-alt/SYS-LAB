@@ -13,11 +13,11 @@ type Props = {
 const LOGO_HOLD_MS = 1500
 
 /**
- * The logo and the black backdrop move as ONE curtain.
- * Show the logo immediately, including during the cover phase:
- * there must never be a separate black-only screen before it appears.
+ * Match the supplied SYS/LAB 1920x1080 artwork:
+ * subtle dark grid, centered white S mark with lime accents.
+ * The complete composition moves with the curtain from its first frame.
  *
- * Keep the legacy video phase/callback names for App compatibility.
+ * The legacy 'video' phase and callback names are kept for App.tsx.
  */
 export function CoursesTransition({ phase, onCovered, onVideoEnded, onRevealed }: Props) {
   const revealed = phase === 'reveal'
@@ -34,8 +34,15 @@ export function CoursesTransition({ phase, onCovered, onVideoEnded, onRevealed }
     <motion.div
       role="presentation"
       aria-hidden="true"
-      className="fixed inset-0 z-[1000] overflow-hidden bg-black"
-      style={{ willChange: 'transform' }}
+      className="fixed inset-0 z-[1000] overflow-hidden"
+      style={{
+        willChange: 'transform',
+        backgroundColor: '#020303',
+        backgroundImage:
+          'linear-gradient(to right, rgba(255,255,255,0.085) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.085) 1px, transparent 1px)',
+        backgroundSize: '80px 80px',
+        backgroundPosition: 'center center',
+      }}
       initial={{ x: '100%' }}
       animate={{ x: revealed ? '100%' : '0%' }}
       transition={{
@@ -53,7 +60,7 @@ export function CoursesTransition({ phase, onCovered, onVideoEnded, onRevealed }
         draggable={false}
         loading="eager"
         decoding="sync"
-        className="pointer-events-none absolute left-1/2 top-1/2 h-auto w-[clamp(150px,21vw,410px)] max-w-[72vw] max-h-[56vh] -translate-x-1/2 -translate-y-1/2 select-none object-contain"
+        className="pointer-events-none absolute left-1/2 top-1/2 h-auto w-[clamp(190px,25vw,400px)] max-w-[70vw] max-h-[55vh] -translate-x-1/2 -translate-y-1/2 select-none object-contain"
       />
     </motion.div>
   )
