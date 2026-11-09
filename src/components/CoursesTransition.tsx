@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { motion } from 'framer-motion'
 
 type Phase = 'idle' | 'cover' | 'video' | 'reveal'
@@ -11,35 +11,23 @@ type Props = {
 }
 
 const CURTAIN_COLOR = '#151717'
+const LOGO_HOLD_MS = 1500
 
 /**
- * Strict sequence:
- * cover: opaque dark curtain slides in from the RIGHT (right-to-left wipe).
- * video: curtain has fully covered the screen, then and only then video plays.
- * reveal: the same curtain slides out to the RIGHT, exposing the new page
- * from left to right.
+ * Preserve the original curtain animation:
+ * 1. An opaque curtain slides in from the right and covers the home page.
+ * 2. A centered, static SYS/LAB Academy logo replaces the old MP4.
+ * 3. The curtain slides right and reveals the courses page.
  *
- * IMPORTANT: keep this component as a stable sibling of route content in App;
- * do not render separate instances inside the home and catalogue branches.
+ * Keep this component as a stable sibling of route content in App.
+ * The legacy 'video' phase and callback name are retained for compatibility.
  */
 export function CoursesTransition({ phase, onCovered, onVideoEnded, onRevealed }: Props) {
-  const videoRef = useRef<HTMLVideoElement>(null)
   const revealed = phase === 'reveal'
 
   useEffect(() => {
     if (phase !== 'video') return
-    const video = videoRef.current
-    if (!video) return
-
-    // Force playback only AFTER the curtain's covering animation finishes.
-    // Muted to satisfy autoplay restrictions, preserving the original MP4.
-    video.currentTime = 0
-    video.muted = true
-    const playback = video.play()
-    playback?.catch(() => onVideoEnded())
-
-    // Safety net if media fails to send onEnded; never trap the visitor.
-    const timeout = window.setTimeout(onVideoEnded, 9000)
+    const timeout = window.setTimeout(onVideoEnded, LOGO_HOLD_MS)
     return () => window.clearTimeout(timeout)
   }, [phase, onVideoEnded])
 
@@ -62,20 +50,21 @@ export function CoursesTransition({ phase, onCovered, onVideoEnded, onRevealed }
         if (phase === 'reveal') onRevealed()
       }}
     >
-      {/* Do not render ANY logo/video during the cover: the curtain is
-          pure charcoal so the old page is completely hidden before playback. */}
-      {phase === 'video' && (
-        <video
-          ref={videoRef}
-          className="absolute inset-0 h-full w-full object-cover"
-          src={`${import.meta.env.BASE_URL}videos/syslab-courses-transition.mp4`}
-          muted
-          playsInline
-          preload="auto"
-          onEnded={onVideoEnded}
-          onError={onVideoEnded}
-          aria-hidden="true"
-        />
+      {/* No logo appears until the curtain has fully covered the previous page. */}
+      {(phase === 'video' || phase === 'reveal') && (
+        <motion.div
+          className="absolute inset-0 flex items-center justify-center px-6"
+          initial={false}
+          animate={{ opacity: revealed ? 0 : 1 }}
+          transition={{ duration: 0.25 }}
+        >
+          <img
+            src={`${import.meta.env.BASE_URL}images/syslab-academy-logo.png`}
+            alt=""
+            draggable={false}
+            className="h-auto max-h-[35vh] w-full max-w-[480px] object-contain"
+          />
+        </motion.div>
       )}
     </motion.div>
   )
