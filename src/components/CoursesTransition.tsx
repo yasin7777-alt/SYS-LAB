@@ -16,7 +16,7 @@ const LOGO_HOLD_MS = 1500
 /**
  * Preserve the original curtain animation:
  * 1. An opaque curtain slides in from the right and covers the home page.
- * 2. A centered, static SYS/LAB logo replaces the old MP4.
+ * 2. A centered SYS/LAB brand mark (no text or video) replaces the old MP4.
  * 3. The curtain slides right and reveals the courses page.
  *
  * Keep this component as a stable sibling of route content in App.
@@ -58,17 +58,12 @@ export function CoursesTransition({ phase, onCovered, onVideoEnded, onRevealed }
           animate={{ opacity: revealed ? 0 : 1 }}
           transition={{ duration: 0.25 }}
         >
-          <div className="flex items-center justify-center gap-3 sm:gap-5">
-            <img
-              src={`${import.meta.env.BASE_URL}images/syslab-mark.png`}
-              alt=""
-              draggable={false}
-              className="h-16 w-auto object-contain sm:h-24"
-            />
-            <span className="font-display text-[clamp(2.5rem,9vw,5.25rem)] font-extrabold leading-none tracking-[-0.06em] text-white">
-              SYS<span className="text-[#d7ff3f]">/</span>LAB
-            </span>
-          </div>
+          <img
+            src={`${import.meta.env.BASE_URL}images/syslab-mark.png`}
+            alt=""
+            draggable={false}
+            className="h-auto w-[min(40vw,180px)] max-h-[40vh] object-contain"
+          />
         </motion.div>
       )}
     </motion.div>
