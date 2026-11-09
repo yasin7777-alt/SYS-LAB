@@ -174,6 +174,9 @@ export function Header({ planCount, onOpenPlan, onOpenCourses, mode = 'home', ca
   // the unscaled S emblem remains visible, preserving the original artwork.
   const academyLogoWidth = useTransform(progress, [0, 0.12, 1],
     narrowViewport ? [210, 210, 43] : [257, 257, 49])
+  // Shift the Academy logo and wordmark closer to the left edge at the top.
+  // Restore normal positioning as the header compacts on scroll.
+  const academyLogoShift = useTransform(progress, [0, 1], narrowViewport ? [0, 0] : [-76, 0])
 
   const navigate = (href: string) => {
     setMenuOpen(false)
@@ -252,10 +255,11 @@ export function Header({ planCount, onOpenPlan, onOpenCourses, mode = 'home', ca
             style={{ paddingLeft: insidePadding, paddingRight: insidePadding }}
           >
             {/* The mark stays sharp and fixed; the word slides left behind it. */}
-            <button
+            <motion.button
               type="button"
               onClick={toTop}
               className="group relative z-10 flex min-w-0 shrink-0 items-center text-left"
+              style={mode === 'courses' ? { x: academyLogoShift } : undefined}
               aria-label="SYS/LAB — на главную"
             >
               {mode === 'courses' ? (
@@ -292,7 +296,7 @@ export function Header({ planCount, onOpenPlan, onOpenCourses, mode = 'home', ca
                   </motion.span>
                 </>
               )}
-            </button>
+            </motion.button>
 
             {/* An inner rounded glass capsule, with a white pill that glides to
                 the currently selected or visible section. */}
