@@ -14,7 +14,7 @@ const LOGO_HOLD_MS = 1500
 
 /**
  * Match the supplied SYS/LAB 1920x1080 artwork:
- * subtle dark grid, centered white S mark with lime accents.
+ * subtle dark grid, compact centered white S mark with lime accents.
  * The complete composition moves with the curtain from its first frame.
  *
  * The legacy 'video' phase and callback names are kept for App.tsx.
@@ -60,7 +60,7 @@ export function CoursesTransition({ phase, onCovered, onVideoEnded, onRevealed }
         draggable={false}
         loading="eager"
         decoding="sync"
-        className="pointer-events-none absolute left-1/2 top-1/2 h-auto w-[clamp(190px,25vw,400px)] max-w-[70vw] max-h-[55vh] -translate-x-1/2 -translate-y-1/2 select-none object-contain"
+        className="pointer-events-none absolute left-1/2 top-1/2 h-auto w-[clamp(92px,8vw,150px)] max-w-[70vw] max-h-[55vh] -translate-x-1/2 -translate-y-1/2 select-none object-contain"
       />
     </motion.div>
   )
