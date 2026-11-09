@@ -10,13 +10,13 @@ type Props = {
   onRevealed: () => void
 }
 
-const LOGO_HOLD_MS = 1600
+const LOGO_HOLD_MS = 1000
 
 /**
  * Match the supplied SYS/LAB 1920x1080 artwork:
  * subtle dark grid, compact centered white S mark with lime accents.
  * The complete design is stationary while the wipe reveals it from right to left.
- * After a 1.6-second hold, the wipe clears towards the left.
+ * After a 1-second hold, the wipe clears towards the left.
  *
  * The legacy 'video' phase and callback names are kept for App.tsx.
  */
