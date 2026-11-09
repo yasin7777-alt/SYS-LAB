@@ -163,6 +163,7 @@ export function IntroGate({ children }: IntroGateProps) {
           animate={{ opacity: exiting ? 0 : 1 }}
           transition={{ duration: exitDurationMs / 1000, ease: [0.16, 1, 0.3, 1] }}
           style={{ pointerEvents: exiting ? 'none' : 'auto' }}
+          onClick={finishIntro}
           role="dialog"
           aria-modal="true"
           aria-label="Видео-заставка SYS/LAB"
@@ -205,7 +206,10 @@ export function IntroGate({ children }: IntroGateProps) {
               >
                 <button
                   type="button"
-                  onClick={enableAudio}
+                  onClick={(event) => {
+                    event.stopPropagation()
+                    enableAudio()
+                  }}
                   className="pointer-events-auto group relative flex min-h-[48px] items-center gap-2.5 rounded-full border border-white/14 bg-white/[0.08] px-3.5 py-2.5 text-left shadow-[0_10px_32px_rgba(0,0,0,0.34)] ring-1 ring-white/6 backdrop-blur-[18px] transition-[border-color,background-color,transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:border-white/22 hover:bg-white/[0.12] hover:shadow-[0_14px_40px_rgba(0,0,0,0.42)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#d7ff3f] sm:gap-3 sm:px-4"
                   aria-label={audioState === 'blocked' ? 'Запустить видеозаставку со звуком' : 'Включить звук видеозаставки'}
                 >
