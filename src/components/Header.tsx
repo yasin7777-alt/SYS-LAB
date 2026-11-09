@@ -154,7 +154,9 @@ export function Header({ planCount, onOpenPlan, onOpenCourses, mode = 'home', ca
 
   // At the top: substantial distance between logo, links and plan.
   // After scroll: each of those lives INSIDE the same rounded bar.
-  const insidePadding = useTransform(progress, [0, 1], narrowViewport ? [18, 16] : [48, 24])
+  // Spread the Academy logo and My Plan toward the viewport edges at the top.
+  // Keep the normal compact pill spacing after scrolling.
+  const insidePadding = useTransform(progress, [0, 1], narrowViewport ? [18, 16] : [mode === 'courses' ? 28 : 48, 24])
   const menuGap = useTransform(progress, [0, 1], [25, 4])
   // The inner rounded navigation capsule is only visible after the header assembles.
   const navBackground = useTransform(progress, [0, 1], [
@@ -251,7 +253,7 @@ export function Header({ planCount, onOpenPlan, onOpenCourses, mode = 'home', ca
             <div className="absolute inset-x-[9%] bottom-px h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
           </motion.div>
           <motion.div
-            className="relative z-10 mx-auto flex h-full w-full max-w-[1500px] items-center justify-between gap-3"
+            className={`relative z-10 mx-auto flex h-full w-full items-center justify-between gap-3 ${mode === 'courses' ? 'max-w-none' : 'max-w-[1500px]'}`}
             style={{ paddingLeft: insidePadding, paddingRight: insidePadding }}
           >
             {/* The mark stays sharp and fixed; the word slides left behind it. */}
