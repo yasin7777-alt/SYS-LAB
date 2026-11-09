@@ -15,7 +15,8 @@ const LOGO_HOLD_MS = 1600
 /**
  * Match the supplied SYS/LAB 1920x1080 artwork:
  * subtle dark grid, compact centered white S mark with lime accents.
- * The complete composition moves with the curtain from its first frame.
+ * The complete design is stationary while the wipe reveals it from right to left.
+ * After a 1.6-second hold, the wipe clears towards the left.
  *
  * The legacy 'video' phase and callback names are kept for App.tsx.
  */
