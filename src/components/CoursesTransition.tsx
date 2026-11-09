@@ -10,13 +10,13 @@ type Props = {
   onRevealed: () => void
 }
 
-const CURTAIN_COLOR = '#151717'
+const CURTAIN_COLOR = '#000000'
 const LOGO_HOLD_MS = 1500
 
 /**
  * Preserve the original curtain animation:
  * 1. An opaque curtain slides in from the right and covers the home page.
- * 2. A centered SYS/LAB brand mark (no text or video) replaces the old MP4.
+ * 2. The user's centered 1920x1080 image replaces the old MP4 (no text or video).
  * 3. The curtain slides right and reveals the courses page.
  *
  * Keep this component as a stable sibling of route content in App.
@@ -58,11 +58,19 @@ export function CoursesTransition({ phase, onCovered, onVideoEnded, onRevealed }
           animate={{ opacity: revealed ? 0 : 1 }}
           transition={{ duration: 0.25 }}
         >
+          {/* Existing brand mark stays behind the image as a fallback until upload. */}
           <img
             src={`${import.meta.env.BASE_URL}images/syslab-mark.png`}
             alt=""
             draggable={false}
             className="h-auto w-[min(40vw,180px)] max-h-[40vh] object-contain"
+          />
+          {/* Original supplied 16:9 artwork, displayed without cropping or edits. */}
+          <img
+            src={`${import.meta.env.BASE_URL}images/syslab-transition-logo.png`}
+            alt=""
+            draggable={false}
+            className="absolute inset-0 h-full w-full object-contain"
           />
         </motion.div>
       )}
