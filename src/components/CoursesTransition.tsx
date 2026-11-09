@@ -67,7 +67,7 @@ export function CoursesTransition({ phase, onCovered, onVideoEnded, onRevealed }
           />
           {/* Original supplied 16:9 artwork, displayed without cropping or edits. */}
           <img
-            src={`${import.meta.env.BASE_URL}images/syslab-transition-logo.png`}
+            src={`${import.meta.env.BASE_URL}images/SYS_LAB_Logo_1920x1080(1).png`}
             alt=""
             draggable={false}
             className="absolute inset-0 h-full w-full object-contain"
