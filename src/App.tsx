@@ -21,8 +21,6 @@ function routeFromHash(): string {
   return route.startsWith('/') ? route : '/'
 }
 
-const skills = ['LINUX', 'TCP / IP', 'WINDOWS SERVER', 'VIRTUALIZATION', 'ACTIVE DIRECTORY', 'SYSTEMD', 'NETWORKING', 'INFRASTRUCTURE']
-
 function App() {
   const [currentPath, setCurrentPath] = useState(routeFromHash)
   const [courseTransitionPhase, setCourseTransitionPhase] = useState<'idle' | 'cover' | 'video' | 'reveal'>('idle')
@@ -149,20 +147,6 @@ function App() {
       <Header planCount={plan.length} completedCount={completedCount} onOpenPlan={openPlan} onStart={() => openLab()} onOpenCourses={openCoursesWithTransition} />
       <main>
         <Hero onStart={() => openLab()} />
-        <div className="overflow-hidden border-b border-white/10 bg-[#101312] py-4" aria-hidden="true">
-          <div className="skill-marquee flex w-max items-center">
-            {[0, 1].map((copy) => (
-              <div key={copy} className="flex shrink-0 items-center">
-                {[...skills, ...skills, ...skills].map((skill, index) => (
-                  <div key={`${copy}-${index}`} className="flex shrink-0 items-center syslab-meta-small uppercase text-white/45">
-                    <span className="px-7">{skill}</span>
-                    <span className="h-1 w-1 shrink-0 rotate-45 bg-[#d7ff3f]/60" />
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
         <Learn />
         <MethodScene />
         <Lab activeId={activeLab} onActiveIdChange={setActiveLab} completed={completed} setCompleted={setCompleted} />

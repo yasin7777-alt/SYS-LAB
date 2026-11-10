@@ -6,6 +6,8 @@ interface HeroProps {
   onStart: () => void
 }
 
+const skills = ['LINUX', 'TCP / IP', 'WINDOWS SERVER', 'VIRTUALIZATION', 'ACTIVE DIRECTORY', 'SYSTEMD', 'NETWORKING', 'INFRASTRUCTURE']
+
 const ease = [0.16, 1, 0.3, 1] as const
 
 export function Hero({ onStart }: HeroProps) {
@@ -51,7 +53,7 @@ export function Hero({ onStart }: HeroProps) {
       </motion.div>
 
       <div className="pointer-events-none absolute inset-0 opacity-40 hero-scan" />
-      <motion.div className="relative z-10 mx-auto flex min-h-[100svh] max-w-[1600px] flex-col px-5 pb-8 pt-[116px] sm:px-8 lg:px-12 lg:pb-10 lg:pt-[138px]" style={reduced ? undefined : { y: contentY }}>
+      <motion.div className="relative z-10 mx-auto flex min-h-[100svh] max-w-[1600px] flex-col px-5 pb-[100px] pt-[116px] sm:px-8 lg:px-12 lg:pb-[110px] lg:pt-[138px]" style={reduced ? undefined : { y: contentY }}>
         <div className="grid flex-1 grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-6">
           <div className="relative z-20 lg:col-span-9">
             <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25, duration: 0.65 }} className="mb-7 flex items-center gap-3 font-mono text-[9px] uppercase tracking-[0.22em] text-white/55 sm:text-[10px]">
@@ -91,6 +93,21 @@ export function Hero({ onStart }: HeroProps) {
         </div>
 
       </motion.div>
+      {/* The continuously moving tech strip is now part of the first screen. */}
+      <div className="absolute inset-x-0 bottom-0 z-20 overflow-hidden border-t border-white/10 bg-[#101312] py-4" aria-hidden="true">
+        <div className="skill-marquee flex w-max items-center">
+          {[0, 1].map((copy) => (
+            <div key={copy} className="flex shrink-0 items-center">
+              {[...skills, ...skills, ...skills].map((skill, index) => (
+                <div key={`${copy}-${index}`} className="flex shrink-0 items-center syslab-meta-small uppercase text-white/45">
+                  <span className="px-7">{skill}</span>
+                  <span className="h-1 w-1 shrink-0 rotate-45 bg-[#d7ff3f]/60" />
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
     </section>
   )
 }
