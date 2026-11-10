@@ -99,7 +99,7 @@ export function Hero({ onStart }: HeroProps) {
           {[0, 1].map((copy) => (
             <div key={copy} className="flex shrink-0 items-center">
               {[...skills, ...skills, ...skills].map((skill, index) => (
-                <div key={`${copy}-${index}`} className="flex shrink-0 items-center syslab-meta-small uppercase text-white/45">
+                <div key={`${copy}-${index}`} className="flex shrink-0 items-center syslab-meta-small uppercase text-white/85">
                   <span className="px-7">{skill}</span>
                   <span className="h-1 w-1 shrink-0 rotate-45 bg-[#d7ff3f]/60" />
                 </div>
