@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState, type Dispatch, type KeyboardEvent
 import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowRight, Check, CheckCircle2, ChevronDown, Command, Download, Lightbulb, Play, RotateCcw, Server, TerminalSquare } from 'lucide-react'
 import { commandSuggestions, createInitialState, executeCommand, isTaskComplete, scenarios, type LabState } from '../lib/labEngine'
+import { executeLinuxLabCommand, linuxCommandSuggestions } from '../lib/linux/labAdapter'
 import { usePersistentState } from '../hooks/usePersistentState'
 import { Reveal } from './Reveal'
 
@@ -15,8 +16,8 @@ interface LabProps {
   setCompleted: Dispatch<SetStateAction<Record<string, string[]>>>
 }
 
-const welcomeLines = (host: string): TerminalLine[] => [
-  { id: -2, text: 'SYS/LAB SECURE SHELL · browser simulation · Ubuntu 24.04 LTS', tone: 'system' },
+const welcomeLines = (host: string, isLinux = false): TerminalLine[] => [
+  { id: -2, text: isLinux ? 'SYS/LAB LINUX TERMINAL 2.0 · virtual filesystem · sandboxed browser simulation' : 'SYS/LAB SECURE SHELL · browser simulation · Ubuntu 24.04 LTS', tone: 'system' },
   { id: -1, text: `Сессия ${host} готова. Введите help для списка команд.`, tone: 'muted' },
 ]
 
@@ -24,7 +25,7 @@ export function Lab({ activeId, onActiveIdChange, completed, setCompleted }: Lab
   const active = scenarios.find((scenario) => scenario.id === activeId) ?? scenarios[0]
   const [labStates, setLabStates] = usePersistentState<Record<string, LabState>>('syslab-lab-states-v1', {})
   const state: LabState = { ...createInitialState(), ...labStates[active.id] }
-  const [logs, setLogs] = useState<TerminalLine[]>(() => welcomeLines(active.host))
+  const [logs, setLogs] = useState<TerminalLine[]>(() => welcomeLines(active.host, active.id === 'linux'))
   const [input, setInput] = useState('')
   const [histories, setHistories] = usePersistentState<Record<string, string[]>>('syslab-histories-v1', {})
   const [historyIndex, setHistoryIndex] = useState<number | null>(null)
@@ -41,11 +42,11 @@ export function Lab({ activeId, onActiveIdChange, completed, setCompleted }: Lab
   const totalTasks = scenarios.reduce((sum, scenario) => sum + scenario.tasks.length, 0)
   const totalDone = scenarios.reduce((sum, scenario) => sum + Math.min(completed[scenario.id]?.length ?? 0, scenario.tasks.length), 0)
   const history = histories[active.id] ?? []
-  const suggestions = useMemo(() => commandSuggestions(input), [input])
+  const suggestions = useMemo(() => active.id === 'linux' ? linuxCommandSuggestions(input) : commandSuggestions(input), [input, active.id])
 
   useEffect(() => {
     const frame = requestAnimationFrame(() => {
-      setLogs(welcomeLines(active.host))
+      setLogs(welcomeLines(active.host, active.id === 'linux'))
       setInput('')
       setShowHint(false)
       setHistoryIndex(null)
@@ -71,7 +72,9 @@ export function Lab({ activeId, onActiveIdChange, completed, setCompleted }: Lab
     const command = raw.trim()
     if (!command) return
     const echo: TerminalLine = { id: lineId.current++, text: `${active.host}:${state.cwd === '/home/student' ? '~' : state.cwd.replace('/home/student/', '~/')}$ ${command}`, tone: 'command' }
-    const result = executeCommand(command, state)
+    // Only the Linux Basics lab switches to the new engine in this rollout.
+    // Network repair and nginx recovery retain their established logic.
+    const result = active.id === 'linux' ? executeLinuxLabCommand(command, state) : executeCommand(command, state)
     setHistories((previous) => ({ ...previous, [active.id]: [...(previous[active.id] ?? []), command].slice(-60) }))
     setHistoryIndex(null)
     setInput('')
@@ -104,7 +107,7 @@ export function Lab({ activeId, onActiveIdChange, completed, setCompleted }: Lab
   const resetLab = () => {
     setLabStates((previous) => ({ ...previous, [active.id]: createInitialState() }))
     setCompleted((previous) => ({ ...previous, [active.id]: [] }))
-    setLogs(welcomeLines(active.host))
+    setLogs(welcomeLines(active.host, active.id === 'linux'))
     setHistories((previous) => ({ ...previous, [active.id]: [] }))
     setInput('')
     setShowHint(false)
@@ -292,7 +295,7 @@ export function Lab({ activeId, onActiveIdChange, completed, setCompleted }: Lab
                     <input id="lab-command" ref={inputRef} value={input} onChange={(event) => { setInput(event.target.value); setHistoryIndex(null) }} onKeyDown={onInputKeyDown} className="min-w-0 flex-1 bg-transparent py-3 font-mono text-[15px] text-white caret-[#d7ff3f] outline-none placeholder:text-white/30 sm:text-[16px]" placeholder="Введите команду…" autoComplete="off" autoCapitalize="off" spellCheck={false} aria-label="Командная строка виртуального стенда" />
                     <button onClick={() => runCommand()} disabled={!input.trim()} className="grid h-10 w-10 shrink-0 place-items-center bg-[#d7ff3f] text-black transition-all hover:bg-white disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-white/25" aria-label="Выполнить команду"><Play size={15} fill="currentColor" /></button>
                   </div>
-                  <div className="mt-1 flex items-center justify-between font-mono text-[9px] uppercase tracking-wider text-white/35"><span>ENTER — RUN · ↑↓ — HISTORY · TAB — COMPLETE</span><span>UTF-8 / BASH</span></div>
+                  <div className="mt-1 flex items-center justify-between font-mono text-[9px] uppercase tracking-wider text-white/35"><span>ENTER — RUN · ↑↓ — HISTORY · TAB — COMPLETE</span><span>{active.id === 'linux' ? 'UTF-8 / VIRTUAL SHELL 2.0' : 'UTF-8 / BASH'}</span></div>
                 </div>
 
                 <AnimatePresence>
