@@ -1,7 +1,9 @@
 # SYS/LAB Terminal 2.0 — incremental development
 
-Branch: feature/linux-terminal-v2. This module is **not yet connected** to the existing LAB UI.
-The production simulator in src/lib/labEngine.ts and its saves remain untouched.
+Branch: feature/linux-terminal-v2. The new shell is connected to **LAB-01 / Linux Basics** in the feature branch.
+LAB-02 Network Repair and LAB-03 Service Recovery continue using the original simulator.
+Existing syslab-lab-states-v1 browser saves are migrated on the first new Linux command;
+progress and other scenarios keep their original persistent storage keys.
 
 ## Batch 1: filesystem and shell foundation
 - JSON-serializable, in-memory virtual filesystem; no real Linux subprocess.
@@ -23,8 +25,8 @@ npm run build
 ## Next batches
 1. Fix test findings and add command registry plus permission model.
 2. Add pipes, globbing, environment variables and multi-line text tools.
-3. Build persistence with versioned migration from the legacy lab state.
-4. Connect the engine to Lab.tsx behind an opt-in flag, preserve the original scenarios.
+3. Improve persistence limits and finish the V2 migration strategy.
+4. Extend V2 to additional scenarios only after preserving their task checks.
 5. Add system/network/service simulation and expand toward 160 commands.
 
 **Important:** Never run user-entered commands via eval, child_process, a real shell
