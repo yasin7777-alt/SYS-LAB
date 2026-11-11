@@ -180,7 +180,7 @@ export function Header({ planCount, onOpenPlan, onOpenCourses, mode = 'home', ca
   // Restore normal positioning as the header compacts on scroll.
   const academyLogoShift = useTransform(progress, [0, 1], narrowViewport ? [0, 0] : [8, 0])
   // Small left offset for the home logo only; it resets as the header compacts.
-  const homeLogoShift = useTransform(progress, [0, 1], narrowViewport ? [0, 0] : [-32, 0])
+  const homeLogoShift = useTransform(progress, [0, 1], narrowViewport ? [0, 0] : [-60, 0])
 
   const navigate = (href: string) => {
     setMenuOpen(false)
