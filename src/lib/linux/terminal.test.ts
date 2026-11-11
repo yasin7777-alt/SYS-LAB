@@ -90,3 +90,54 @@ test('unsupported pipes fail explicitly, not as pretend Linux', () => {
   assert.equal(result.exitCode, 2)
   assert.match(result.output[0], /Pipes/)
 })
+
+
+import { createInitialState, executeCommand, isTaskComplete } from '../labEngine.ts'
+import { executeLinuxLabCommand, migrateLegacyLinuxState } from './labAdapter.ts'
+
+test('LAB-01: the four original tasks complete with the V2 shell', () => {
+  let state = createInitialState()
+  state = executeLinuxLabCommand('whoami', state).state
+  assert.equal(isTaskComplete('identity', state), true)
+  state = executeLinuxLabCommand('mkdir -p /home/student/projects', state).state
+  assert.equal(isTaskComplete('workspace', state), true)
+  state = executeLinuxLabCommand('cd projects && touch README.md', state).state
+  assert.equal(isTaskComplete('readme', state), true)
+  state = executeLinuxLabCommand('ls -la', state).state
+  assert.equal(isTaskComplete('listing', state), true)
+})
+
+test('LAB-01: mkdir -p ff works and cd .. navigates back', () => {
+  let state = createInitialState()
+  let r = executeLinuxLabCommand('mkdir -p ff', state)
+  assert.equal(r.tone, 'normal')
+  state = r.state
+  assert.equal(state.linuxV2?.filesystem.nodes['/home/student/ff']?.type, 'directory')
+  state = executeLinuxLabCommand('cd ff', state).state
+  assert.equal(state.cwd, '/home/student/ff')
+  state = executeLinuxLabCommand('cd ..', state).state
+  assert.equal(state.cwd, '/home/student')
+})
+
+test('LAB-01: existing saved legacy workspace and README are migrated', () => {
+  const legacy = createInitialState()
+  legacy.cwd = '/home/student/projects'
+  legacy.directories = ['/home/student/projects', '__identity__']
+  legacy.readmeCreated = true
+  legacy.commandCount = 31
+  const migrated = migrateLegacyLinuxState(legacy)
+  assert.equal(migrated.cwd, legacy.cwd)
+  assert.equal(migrated.commandCount, 31)
+  assert.equal(migrated.filesystem.nodes['/home/student/projects/README.md']?.type, 'file')
+  const next = executeLinuxLabCommand('ls -la', legacy).state
+  assert.equal(isTaskComplete('listing', next), true)
+  assert.equal(isTaskComplete('identity', next), true)
+})
+
+test('legacy network and nginx command execution continues to function', () => {
+  const state = createInitialState()
+  const network = executeCommand('ip addr', state)
+  assert.equal(network.state.inspectedNetwork, true)
+  const service = executeCommand('systemctl restart nginx', state)
+  assert.equal(service.state.nginxRunning, true)
+})
