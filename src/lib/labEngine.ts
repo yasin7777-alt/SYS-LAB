@@ -33,7 +33,13 @@ export interface LabScenario {
   tasks: LabTask[]
 }
 
+import type { LinuxTerminalState } from './linux/shell.ts'
+
 export interface LabState {
+  /** Optional V2 simulator snapshot; old localStorage saves remain readable. */
+  linuxV2?: LinuxTerminalState
+  linuxSawWhoami?: boolean
+  linuxListedReadme?: boolean
   cwd: string
   directories: string[]
   readmeCreated: boolean
@@ -207,13 +213,13 @@ export function createInitialState(): LabState {
 export function isTaskComplete(condition: TaskCondition, state: LabState): boolean {
   switch (condition) {
     case 'identity':
-      return /(^|\s)whoami(\s|$)/.test(state.lastCommand) || state.directories.includes('__identity__')
+      return state.linuxV2 ? Boolean(state.linuxSawWhoami) : /(^|\s)whoami(\s|$)/.test(state.lastCommand) || state.directories.includes('__identity__')
     case 'workspace':
       return state.directories.includes('/home/student/projects')
     case 'readme':
       return state.readmeCreated
     case 'listing':
-      return state.readmeCreated && /^ls(\s|$)/.test(state.lastCommand)
+      return state.linuxV2 ? Boolean(state.linuxListedReadme) : state.readmeCreated && /^ls(\s|$)/.test(state.lastCommand)
     case 'network-inspected':
       return state.inspectedNetwork
     case 'gateway':
