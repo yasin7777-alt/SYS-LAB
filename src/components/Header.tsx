@@ -179,6 +179,8 @@ export function Header({ planCount, onOpenPlan, onOpenCourses, mode = 'home', ca
   // Shift the Academy logo and wordmark closer to the left edge at the top.
   // Restore normal positioning as the header compacts on scroll.
   const academyLogoShift = useTransform(progress, [0, 1], narrowViewport ? [0, 0] : [8, 0])
+  // Small left offset for the home logo only; it resets as the header compacts.
+  const homeLogoShift = useTransform(progress, [0, 1], narrowViewport ? [0, 0] : [-32, 0])
 
   const navigate = (href: string) => {
     setMenuOpen(false)
@@ -261,7 +263,7 @@ export function Header({ planCount, onOpenPlan, onOpenCourses, mode = 'home', ca
               type="button"
               onClick={toTop}
               className="group relative z-10 flex min-w-0 shrink-0 items-center text-left"
-              style={mode === 'courses' ? { x: academyLogoShift } : undefined}
+              style={{ x: mode === 'courses' ? academyLogoShift : homeLogoShift }}
               aria-label="SYS/LAB — на главную"
             >
               {mode === 'courses' ? (
